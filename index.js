@@ -14,29 +14,33 @@ const db = mongoose.connect('mongodb://localhost:27017/first-node-api-db')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   // handle the request for root route
-  res.send({ ping: 'pong' })
+  res.send({
+    "FirstName": "Deepak",
+    "LastName": "Kumar",
+    "Age": 24
+  })
 })
 
 // Operations: Create, Read, Update, Delete (CRUD)
-app.post('/posts', function(req, res) {
+app.post('/posts', function (req, res) {
   // Get values from request payload
-  const title = req.body.title
-  const author = req.body.author
-  const content = req.body.content
+  const FirstName = req.body.FirstName
+  const LastName = req.body.LastName
+  const Age = req.body.Age
 
   // Assign values to Post model
   var post = new Post();
-  post.title = title
-  post.author = author
-  post.content = content
+  post.FirstName = FirstName
+  post.LastName = LastName
+  post.Age = Age
 
   // Save the post
-  post.save(function(error, savedPost) {
-    if(error) {
+  post.save(function (error, savedPost) {
+    if (error) {
       // send error response
-      res.status(500).send({ error: 'Unable to save Post '})
+      res.status(500).send({ error: 'Unable to save Post ' })
     } else {
       // send success response
       res.status(200).send(savedPost)
@@ -45,11 +49,11 @@ app.post('/posts', function(req, res) {
 });
 
 // Get list of all posts
-app.get('/posts', function(req, res) {
-  Post.find({}, function(error, posts) {
-    if(error) {
+app.get('/posts', function (req, res) {
+  Post.find({}, function (error, posts) {
+    if (error) {
       // send error response
-      res.status(422).send({ error: 'Unable to fetch posts '})
+      res.status(422).send({ error: 'Unable to fetch posts ' })
     } else {
       // send success response
       res.status(200).send(posts)
@@ -57,11 +61,6 @@ app.get('/posts', function(req, res) {
   })
 })
 
-// Tasks for you
-// 1. Create API to get details of a single Post
-// 2. Create API to update a Post
-// 3. Create API to delete a Post
-
-app.listen(3001, function() {
+app.listen(3001, function () {
   console.log('Server is running at port 3001....')
 })
